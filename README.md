@@ -1,7 +1,7 @@
 # 🧠 RAG Studio — Employee Policy Q&A
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://python.org)
-[![Streamlit](https://img.shields.io/badge/Streamlit-1.28-red)](https://streamlit.io)
+[![HTML/CSS/JS](https://img.shields.io/badge/Frontend-HTML%2FCSS%2FJS-purple)](https://developer.mozilla.org)
 [![Pinecone](https://img.shields.io/badge/Pinecone-Serverless-green)](https://pinecone.io)
 [![Gemini](https://img.shields.io/badge/Gemini-API-orange)](https://deepmind.google/technologies/gemini/)
 [![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
@@ -21,7 +21,6 @@ Company policy documents are long — and nobody reads them. Instead of scrollin
 ---
 
 ## 🏗️ Architecture
-
 
 | Stage        | Detail                                                                                      |
 |--------------|----------------------------------------------------------------------------------------------|
@@ -45,12 +44,12 @@ Company policy documents are long — and nobody reads them. Instead of scrollin
 
 | Layer              | Technology                                                       |
 |--------------------|------------------------------------------------------------------|
-| **Frontend**       | Streamlit (custom CSS, glass UI)                                 |
+| **Frontend**       | HTML5, CSS3 (glass UI), Vanilla JavaScript                       |
+| **Backend API**    | Python 3.10+ (Flask/FastAPI)                                     |
 | **PDF parsing**    | pypdf                                                            |
 | **Embeddings**     | sentence‑transformers · all‑MiniLM‑L6‑v2 (384‑dim)               |
 | **Vector database**| Pinecone (serverless)                                            |
 | **LLM**            | Google Gemini API                                                |
-| **Language**       | Python 3.10+                                                     |
 
 ---
 
@@ -60,7 +59,6 @@ Company policy documents are long — and nobody reads them. Instead of scrollin
 ```bash
 git clone https://github.com/<your-username>/rag-studio.git
 cd rag-studio
-
 2. Install dependencies
 bash
 pip install -r requirements.txt
@@ -70,11 +68,10 @@ Create a .env file in the project root:
 env
 PINECONE_API_KEY=your_pinecone_key
 GOOGLE_API_KEY=your_gemini_key
-4. Run the app
+4. Start the backend server
 bash
-streamlit run streamlit_app.py
-Then open http://localhost:8501, click 🔄 Rebuild index in the sidebar (once), and start asking questions! 🎉
-
+python app.py          # or uvicorn main:app --reload for FastAPI
 ```
+
 ## 📸 Screenshot
-<img width="1434" height="787" alt="Screenshot 2026-09-09 at 1 08 49 PM" src="https://github.com/user-attachments/assets/59cab637-e1c3-43ee-95b7-0809c36ed651" />
+<img width="1429" height="783" alt="Screenshot 2026-09-09 at 3 05 49 PM" src="https://github.com/user-attachments/assets/e57fc219-9b69-4431-8e3d-d1392fff5fbe" />
