@@ -1,40 +1,80 @@
-RAG Studio is an end-to-end Retrieval-Augmented Generation (RAG) application that turns any PDF document into an intelligent, searchable knowledge base. Built with Streamlit, it lets users ask natural-language questions about an employee policy handbook and receive accurate, context-grounded answers — each backed by cited source chunks and relevance scores. Documents are parsed with pypdf, split into semantic chunks, embedded with all-MiniLM-L6-v2, and indexed in Pinecone; at query time, the most relevant chunks are retrieved and passed to Google Gemini to generate precise answers.
+# 🧠 RAG Studio — Employee Policy Q&A
 
-📖 Full description
-What it does
-RAG Studio solves a real problem: company policy documents are long, and nobody reads them. Instead of scrolling through 40 pages of PDF to find the remote-work policy or vacation entitlement, users simply ask — "How many vacation days do I get?" — and get an instant, accurate answer traced back to the exact document section it came from.
+[![Python](https://img.shields.io/badge/Python-3.10%2B-blue)](https://python.org)
+[![Streamlit](https://img.shields.io/badge/Streamlit-1.28-red)](https://streamlit.io)
+[![Pinecone](https://img.shields.io/badge/Pinecone-Serverless-green)](https://pinecone.io)
+[![Gemini](https://img.shields.io/badge/Gemini-API-orange)](https://deepmind.google/technologies/gemini/)
+[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
 
-How it works (Architecture)
-text
+An AI-powered Q&A assistant that answers questions about company policy documents using **RAG (Retrieval-Augmented Generation)** — grounded, cited answers via Pinecone vector search + Google Gemini.
 
-┌──────────────┐     ┌─────────────┐     ┌──────────────┐     ┌─────────────┐
-│    pypdf     │ →   │  Chunking   │ →   │ all-MiniLM-  │ →   │  Pinecone   │
-│  PDF extract │     │ (semantic)  │     │ L6-v2 embed  │     │ (vector DB) │
-└──────────────┘     └─────────────┘     └──────────────┘     └─────────────┘
-                                                                      ↑ index
-┌──────────────┐     ┌──────────────────────────────────────────────┐ │
-│   Gemini     │ ←   │           User Question                      │─┘
-│  (generate)  │     │      ↓ embed → similarity search (top-K)     │
-└──────────────┘     └──────────────────────────────────────────────┘
-        ↓
-  Grounded answer + cited sources + relevance scores
-Ingestion pipeline: Extract text from PDF → split into overlapping chunks → convert each chunk into a 384-dimensional vector embedding → upsert into Pinecone.
+---
 
-Query pipeline: Embed the user's question → retrieve top-K most similar chunks via cosine similarity → feed them as context to Gemini → return the generated answer with full source attribution.
+## 🎯 What it does
 
-Key features
-💬 Conversational chat UI — persistent session history with a premium dark glassmorphism interface
-📄 Source citations — every answer displays the retrieved chunks with similarity scores, so users can verify claims
-🎛️ Adjustable retrieval depth — top-K slider to balance context breadth vs. precision
-🔄 One-click re-ingestion — rebuild the vector index anytime the source document changes
-✅ Grounded answers — responses are generated only from indexed document content, reducing hallucination
-🧹 Session controls — clear conversation, live index status, error handling with persisted state
-Tech stack
-Layer
-Technology
-Frontend	Streamlit (custom CSS, glassmorphism UI)
-PDF parsing	pypdf
-Embeddings	sentence-transformers — all-MiniLM-L6-v2 (384-dim)
-Vector database	Pinecone (serverless)
-LLM	Google Gemini API
-Language	Python 3.10+
+Company policy documents are long — and nobody reads them. Instead of scrolling through 40 pages of PDF to find the remote‑work policy or vacation entitlement, users simply ask:
+
+> *"How many vacation days do I get?"*
+
+…and get an **instant, accurate answer** traced back to the exact document section it came from — with source chunks and relevance scores shown for verification.
+
+---
+
+## 🏗️ Architecture
+
+
+| Stage        | Detail                                                                                      |
+|--------------|----------------------------------------------------------------------------------------------|
+| **Ingestion**| Extract text from PDF → split into overlapping chunks → embed (384‑dim) → upsert to Pinecone |
+| **Query**    | Embed question → retrieve top‑K chunks (cosine similarity) → pass as context to Gemini → generate answer |
+
+---
+
+## ✨ Key Features
+
+- 💬 **Conversational chat UI** — persistent session history, premium dark glassmorphism design
+- 📄 **Source citations** — every answer shows retrieved chunks with similarity scores
+- 🎛️ **Adjustable retrieval depth** — top‑K slider to balance context breadth vs. precision
+- 🔄 **One‑click re‑ingestion** — rebuild the vector index anytime the document changes
+- ✅ **Grounded answers** — responses generated only from indexed document content (reduced hallucination)
+- 🧹 **Session controls** — clear conversation, live index status, robust error handling
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer              | Technology                                                       |
+|--------------------|------------------------------------------------------------------|
+| **Frontend**       | Streamlit (custom CSS, glass UI)                                 |
+| **PDF parsing**    | pypdf                                                            |
+| **Embeddings**     | sentence‑transformers · all‑MiniLM‑L6‑v2 (384‑dim)               |
+| **Vector database**| Pinecone (serverless)                                            |
+| **LLM**            | Google Gemini API                                                |
+| **Language**       | Python 3.10+                                                     |
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone the repo
+```bash
+git clone https://github.com/<your-username>/rag-studio.git
+cd rag-studio
+
+2. Install dependencies
+bash
+pip install -r requirements.txt
+3. Set up API keys
+Create a .env file in the project root:
+
+env
+PINECONE_API_KEY=your_pinecone_key
+GOOGLE_API_KEY=your_gemini_key
+4. Run the app
+bash
+streamlit run streamlit_app.py
+Then open http://localhost:8501, click 🔄 Rebuild index in the sidebar (once), and start asking questions! 🎉
+
+```
+## 📸 Screenshot
+<img width="1434" height="787" alt="Screenshot 2026-09-09 at 1 08 49 PM" src="https://github.com/user-attachments/assets/59cab637-e1c3-43ee-95b7-0809c36ed651" />
